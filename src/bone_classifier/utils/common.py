@@ -1,7 +1,7 @@
 import os
 from box.exceptions import BoxValueError # Exception handling.
 import yaml      # To read yaml file.
-from cnn_classifier import logger  # For logging.
+from src.bone_classifier import log  # For logging.
 import joblib  # To 
 from ensure import ensure_annotations
 from box import ConfigBox
@@ -18,7 +18,7 @@ def read_yaml(path_to_yaml:Path) -> ConfigBox:
     try: 
         with open(path_to_yaml) as yaml_file:
             content=yaml.safe_load(yaml_file)
-            logger.info(f"yaml file : {path_to_yaml} loaded sucessfully")
+            log.info(f"yaml file : {path_to_yaml} loaded sucessfully")
             return ConfigBox(content)
     except BoxValueError:
         raise ValueError("yaml file is empty")
@@ -31,7 +31,7 @@ def create_directories(path_to_directories  : list, verbose=True):
         os.makedirs(file, exist_ok=True)
 
         if verbose:
-            logger.info(f"Created directories at : {file}")
+            log.info(f"Created directories at : {file}")
 
 
 @ensure_annotations
@@ -53,7 +53,7 @@ def load_json(path: Path):
     """
     with open(path) as f:
         content=json.load(f)
-    logger.info(f"Json file loaded from path {path} sucessfully")
+    log.info(f"Json file loaded from path {path} sucessfully")
     
     return ConfigBox(content)
 
@@ -66,7 +66,7 @@ def save_bin(data: Any, path: Path):
     Save binary file.
     """
     joblib.dump(value=data, filename=path)
-    logger.info(f"Binary file saved ar: {path}")
+    log.info(f"Binary file saved ar: {path}")
 
 
 # Load the binary file.
@@ -76,7 +76,7 @@ def load_bin(path: Path):
     load Binary file.
     """
     data=joblib.load(path)
-    logger.info(f"binary file loaded from: {path}")
+    log.info(f"binary file loaded from: {path}")
     return data
 
 @ensure_annotations
